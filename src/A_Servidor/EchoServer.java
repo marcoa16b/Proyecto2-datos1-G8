@@ -1,14 +1,58 @@
 package A_Servidor;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class EchoServer {
-    public static void main(String[] args) throws IOException {
+public class EchoServer implements Runnable{
+    public final int port=9000;
+    public static ServerSocket EchoSocket;
+    public static void startEchoServer(){
+        EchoServer echoServer=new EchoServer();
+        Thread echoThread = new Thread(echoServer);
+        echoThread.start();
+    }
+    public static void stopEchoServer() throws IOException{
+        System.out.println("Server Close");
+        EchoSocket.close();
+    }
+    @Override
+    public void run() {
+        System.out.println("Server Started:"+port);
+        try {
+            EchoSocket= new ServerSocket(port);
+            do{
+                System.out.println("Awaiting connection");
+                Socket client=EchoSocket.accept();
+                System.out.println("Client Connected");
+                ServerSession serverSession= new ServerSession(client);
+                Thread serverSessionThread = new Thread(serverSession);
+                serverSessionThread.start();
+            }while (EchoSocket.isBound());
+            stopEchoServer();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-        ServerSocket serverSocket = new ServerSocket(2345);
+    public static void main(String[] args) {
+        startEchoServer();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*    public static void main(String[] args) throws IOException {
+
+        ServerSocket serverSocket = new ServerSocket(9000);
         System.out.println("ServerSocket: " + serverSocket);
         while (true) {
             Socket socket = null;
@@ -28,47 +72,8 @@ public class EchoServer {
                 System.out.println(e);
             }
         }
-    }
+    }*/
+
+
 }
 
-//clienthandler class
-class MultiClientHandler extends Thread {
-    final DataInputStream dis;
-    final DataOutputStream dos;
-    final Socket socket;
-
-    // constructor
-    public MultiClientHandler(Socket s, DataInputStream dis, DataOutputStream dos) {
-        this.socket = s;
-        this.dis = dis;
-        this.dos = dos;
-    }
-
-    public void run() {
-        String received;
-        while (true) {
-            try {
-                dos.writeUTF("Send message to server (Type Exit to terminate connection)");
-                received = dis.readUTF();
-
-                if (received.equals("Exit")) {
-                    System.out.println("Client " + this.socket + " sends exit...");
-                    System.out.println("Closing the connection");
-                    this.socket.close();
-                    System.out.println("Connection Closed");
-                    break;
-                }
-                dos.writeUTF(received);
-                System.out.println("Response of client: " + received);
-            } catch (Exception e) {
-                System.out.println(e);
-            }
-        }
-        try {
-            this.dis.close();
-            this.dos.close();
-        } catch (IOException e) {
-            System.out.println("Error: " + e);
-        }
-    }
-}

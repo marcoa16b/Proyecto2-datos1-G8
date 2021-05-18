@@ -97,7 +97,7 @@ public class Game extends Canvas implements Runnable {
 
     }
 
-    public static void main(String[] args) {
+   /* public static void main(String[] args) {
         new Window(800,600, "Space Invaders", new Game());
         final String HOST = "127.0.0.1";
         final int PUERTO = 5000;
@@ -123,5 +123,5 @@ public class Game extends Canvas implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }
