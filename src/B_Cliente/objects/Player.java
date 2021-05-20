@@ -22,10 +22,10 @@ public class Player extends GameObject implements MouseListener, MouseMotionList
 
     @Override
     public void render(Graphics g) {
-        //g.setColor(Color.CYAN);
-        //g.fillRect((int)x, (int)y,32, 32);
-        BufferedImage playerImg = Load.imageLoad("/player.png");
-        g.drawImage(playerImg, (int)x, (int)y, null);
+        g.setColor(Color.CYAN);
+        g.fillRect((int)x, (int)y,32, 32);
+        //BufferedImage playerImg = Load.imageLoad("/player.png");
+        //g.drawImage(playerImg, (int)x, (int)y, null);
     }
 
     @Override

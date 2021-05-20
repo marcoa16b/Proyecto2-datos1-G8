@@ -1,5 +1,6 @@
 package B_Cliente.main;
 
+import B_Cliente.objects.Enemy;
 import B_Cliente.objects.Hadler;
 import B_Cliente.objects.ObjectId;
 import B_Cliente.objects.Player;
@@ -22,6 +23,8 @@ public class Game extends Canvas implements Runnable {
     public void init(){
         handler = new Hadler();
         handler.addObject(new Player(400, 500, ObjectId.player, this));
+
+        handler.addObject(new Enemy(400, 100, null));
     }
 
     public synchronized void start(){

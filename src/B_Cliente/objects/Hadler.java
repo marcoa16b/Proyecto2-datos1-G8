@@ -27,7 +27,7 @@ public class Hadler {
         this.object.add(object);
     }
 
-    public void removeObject(GameObject onject){
+    public void removeObject(GameObject object){
         this.object.remove(object);
     }
 }
