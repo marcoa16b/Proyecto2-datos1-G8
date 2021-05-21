@@ -1,5 +1,6 @@
 package A_Servidor;
 
+import A_Servidor.Session.HandleSession;
 import A_Servidor.enumConst.DataChecks;
 
 import javax.swing.*;
@@ -36,9 +37,7 @@ public class ServerApp extends JFrame {
     public void startRunning(){
 
         try{
-            //PropertyManager pm;
-            //pm = PropertyManager.getInstance();
-            //int port = pm.getPort();
+
             int portt = 50800;
 
             // Create a server
@@ -46,6 +45,7 @@ public class ServerApp extends JFrame {
             information.append(serverSocket.getInetAddress().getHostAddress());
             information.append(new Date() + ":- Server start at port "+ portt + " \n");
             sessionNo = 1;
+            int numOfPlayers = 0;
 
             while (true){
 
@@ -56,6 +56,7 @@ public class ServerApp extends JFrame {
                 information.append(new Date() + ":- player1 joined at");
                 information.append(player1.getInetAddress().getHostAddress());
                 information.append("\n");
+                numOfPlayers++;
 
                 // Notification to player1 that's he's connected
                 new DataOutputStream(player1.getOutputStream()).writeInt(DataChecks.PLAYER_ONE.getValue());
@@ -65,6 +66,7 @@ public class ServerApp extends JFrame {
                 information.append(new Date() + ":- player2 joined at");
                 information.append(player2.getInetAddress().getHostAddress());
                 information.append("\n");
+                numOfPlayers++;
 
                 // Notification to player2 that's he's connected
                 new DataOutputStream(player2.getOutputStream()).writeInt(DataChecks.PLAYER_TWO.getValue());
@@ -73,6 +75,11 @@ public class ServerApp extends JFrame {
                 sessionNo++;
 
                 // create a new thread for this session of two players
+                if (numOfPlayers == 2) {
+                    System.out.println("el numero de jugadores es 2");
+                    HandleSession task = new HandleSession(player1, player2);
+                    new Thread(task).start();
+                }
 
             }
 
@@ -81,5 +88,4 @@ public class ServerApp extends JFrame {
         }
 
     }
-
 }

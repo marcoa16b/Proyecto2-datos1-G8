@@ -40,7 +40,8 @@ public class ClientMenu {
             System.out.println("my id is: "+DataCheckers.ID.getValue());
 
             Controller task = new Controller(fromServer, toServer);
-            setup(task);
+            //setup(task);
+            new Thread(task).start();
 
 
         } catch (UnknownHostException e) {

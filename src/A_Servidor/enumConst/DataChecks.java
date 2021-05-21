@@ -8,7 +8,8 @@ public enum DataChecks {
     YOU_LOSE(91),
     MOVE_RIGHT(5),
     MOVE_LEFT(6),
-    SHOT(7);
+    SHOT(7),
+    PLAYER_ACTIVE(3);
 
     private int value;
 

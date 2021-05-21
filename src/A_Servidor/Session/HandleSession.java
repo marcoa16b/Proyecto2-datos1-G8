@@ -10,69 +10,65 @@ public class HandleSession implements Runnable {
     private ManagePlayers player1;
     private ManagePlayers player2;
 
-    private boolean isOver;
+    public boolean isOver;
 
     private boolean continueToPlay = true;
 
     public HandleSession(Socket p1, Socket p2){
+        System.out.println("Se creo el HandleSession");
         player1 = new ManagePlayers(DataChecks.PLAYER_ONE.getValue(), p1);
         player2 = new ManagePlayers(DataChecks.PLAYER_TWO.getValue(), p2);
+        isOver = false;
     }
 
     @Override
     public void run() {
 
+        //int numOfPlayers
+
         try{
-            //player1.sendData(1);
+
+            // Notify that players are online
+            player1.sendData(DataChecks.PLAYER_TWO.getValue());
+            player1.sendData(DataChecks.PLAYER_ACTIVE.getValue());
+            player1.sendData(0);
+
+            player2.sendData(DataChecks.PLAYER_ONE.getValue());
+            player2.sendData(DataChecks.PLAYER_ACTIVE.getValue());
+            player2.sendData(0);
 
             while (continueToPlay){
 
-                //  wait for player 1's action
-                int from = player1.receiveData(); // Id of player (1 or 2)
-                int to = player1.receiveData();   // action
-                int data = player1.receiveData(); // Data of action
-                checkStatus(from, to);
-                updateGameModel(from, to, data);
+                if (!isOver) {
 
-                // Send Data to 2nd player
-                if (isOver)
-                    player2.sendData(DataChecks.YOU_LOSE.getValue());
-                int fromStatus = player2.sendData(from);
-                int toStatus = player2.sendData(to);
-                checkStatus(fromStatus,toStatus);
+                    //  Receive the info of player 1
+                    int from = player1.receiveData(); // Id of player (1 or 2)
+                    int to = player1.receiveData();   // action
+                    int data = player1.receiveData(); // Data of action
+                    checkerState(from, to);
+                    if (checkStatus(from, to) == false) {
+                        updateGameModel(from, to, data);
+                    } else {
+                        //player2.closeConnection();
+                        break;
+                    }
 
-                // If game is over, breakdata
-                if(isOver){
-                    player1.sendData(DataChecks.YOU_WIN.getValue());
-                    continueToPlay=false;
+                    // Receive the info of player 2
+                    from = player2.receiveData();
+                    to = player2.receiveData();
+                    data = player2.receiveData();
+                    checkerState(from, to);
+                    if (checkStatus(from, to) == false) {
+                        updateGameModel(from, to, data);
+                    } else {
+                        //player1.closeConnection();
+                        break;
+                    }
+
+                } else {
+                    continueToPlay = false;
                     break;
                 }
-
-                System.out.println("after break");
-
-                //wait for player 2's Action
-                from = player2.receiveData();
-                to = player2.receiveData();
-                data = player2.receiveData();
-                checkStatus(from, to);
-                updateGameModel(from, to, data);
-
-                //Send Data back to 1st Player
-                if(isOver){
-                    player1.sendData(DataChecks.YOU_LOSE.getValue());		//Game Over notification
-                }
-                fromStatus = player1.sendData(from);
-                toStatus = player1.sendData(to);
-                checkStatus(fromStatus,toStatus);
-
-                //IF game is over, break
-                if(isOver){
-                    player2.sendData(DataChecks.YOU_WIN.getValue());
-                    continueToPlay=false;
-                    break;
-                }
-
-                System.out.println("second break");
 
             }
         } catch (Exception ex) {
@@ -89,9 +85,19 @@ public class HandleSession implements Runnable {
 
     }
 
-    private void checkStatus(int status, int status2) throws Exception{
-        if(status==99 || status2==99){
-            throw new Exception("Connection is lost");
+    private void checkerState(int state1, int state2) throws Exception{
+        if (state1 == 99 || state2 == 99){
+            throw new Exception("Conection is lost");
+        }
+    }
+
+    private boolean checkStatus(int from, int to) { // throws Exception
+        if((from==1 && to==99) || (from==2 && to==99)){
+            return true;
+            //throw new Exception("Connection is lost");
+
+        }else{
+            return false;
         }
     }
 
@@ -124,5 +130,4 @@ public class HandleSession implements Runnable {
             }
         }
     }
-
 }
