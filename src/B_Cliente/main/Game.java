@@ -1,27 +1,27 @@
 package B_Cliente.main;
 
-import B_Cliente.objects.Hadler;
+import B_Cliente.game_handler.Handler;
 import B_Cliente.objects.ObjectId;
 import B_Cliente.objects.Player;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class Game extends Canvas implements Runnable {
 
     private static boolean run = false;
     private Thread thread;
 
-    Hadler handler;
+    static Handler handler;
 
     public void init(){
-        handler = new Hadler();
+        handler = new Handler();
         handler.addObject(new Player(400, 500, ObjectId.player, this));
+        //handler.addObject(new Bullet(2, 2, ObjectId.bullet));
+    }
+
+    public static Handler getHandler(){
+        return handler;
     }
 
     public synchronized void start(){
@@ -96,32 +96,4 @@ public class Game extends Canvas implements Runnable {
 
 
     }
-
-   /* public static void main(String[] args) {
-        new Window(800,600, "Space Invaders", new Game());
-        final String HOST = "127.0.0.1";
-        final int PUERTO = 5000;
-        DataInputStream in;
-        DataOutputStream out;
-
-        try {
-            Socket sc = new Socket(HOST, PUERTO);
-
-            while (run) {
-                in = new DataInputStream(sc.getInputStream());
-                out = new DataOutputStream(sc.getOutputStream());
-
-                out.writeUTF("Hola servidor ");
-                String mensaje = in.readUTF();
-
-                System.out.println(mensaje);
-            }
-            sc.close();
-
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
 }
