@@ -15,12 +15,10 @@ public class ClientMenu {
         try {
             clientSocket = new Socket(host, port);
             System.out.println("conectando al server . . . ");
-            new Window(800,600, "Space Invaders", new Game());// Executes the window
+            //new Window(800,600, "Space Invaders", new Game());// Executes the window
             UserSession userSession= new UserSession(clientSocket);
             Thread clientSessionThread = new Thread(userSession);
             clientSessionThread.start();
-            //Scanner scanner = new Scanner(System.in);
-            //System.out.println("presione enter para terminar");
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {

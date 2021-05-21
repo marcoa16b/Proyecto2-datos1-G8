@@ -4,6 +4,7 @@ import MessageReader.MessageReader;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Arrays;
 
 public class ServerSession implements Runnable{
     private Socket socket;
@@ -24,6 +25,7 @@ public class ServerSession implements Runnable{
          BufferedReader br;
          long lastSentTime=0;
          try {
+             //System.out.println("working");
              os = socket.getOutputStream();
              //dos = new DataOutputStream(os);
              osw = new OutputStreamWriter(os);
@@ -33,48 +35,19 @@ public class ServerSession implements Runnable{
              isr = new InputStreamReader(is);
              br = new BufferedReader(isr);
              do{
-                 if(is.available()>0){
+
                      String[] completeCommand = MessageReader.readSplitMessage(br);
                      String command = completeCommand[0];
-                     switch (command){
-                         case MessageReader.CMD_START:{
-                             String a=MessageReader.readMessage(br);
-                             System.out.println(a);
-                             MessageReader.writeMessage(bw,null,"Hello");
-
-                         }
-
-                     }
+                     System.out.println(Arrays.toString(MessageReader.readSplitMessage(br)));
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                 }
              }while (socket.isBound());
-
-
-
-
-
-
 
          } catch (IOException e) {
              e.printStackTrace();
          }
      }
 }
+
+
+

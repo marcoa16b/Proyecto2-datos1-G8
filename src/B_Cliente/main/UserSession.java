@@ -23,12 +23,16 @@ public class UserSession implements Runnable{
     public void run() {
         OutputStream os = null;
         OutputStreamWriter osw;
+        //BufferedWriter bw;
         InputStream is = null;
         InputStreamReader isr;
         BufferedReader br;
         myId = generateId();
         myLaserId = generateId();
+        myId = generateId();
+        myLaserId = generateId();
         //long lastSentTime = 0;
+
         try {
             os = clientSocket.getOutputStream();
             osw = new OutputStreamWriter(os);
@@ -36,10 +40,24 @@ public class UserSession implements Runnable{
             is = clientSocket.getInputStream();
             isr = new InputStreamReader(is);
             br = new BufferedReader(isr);
-            MessageReader.writeMessage(bw, MessageReader.CMD_START, myId + " " + myLaserId);
-            MessageReader.writeMessage(bw,MessageReader.CMD_START, "HOLA");
+            //MessageReader.writeMessage(bw, MessageReader.CMD_START, myId + " " + myLaserId);
             System.out.println("mi id es " + myId);
-            MessageReader.readMessage(br);
+            do{
+                try {
+
+                        String[] completeCommand = MessageReader.readSplitMessage(br);
+                        String command = completeCommand[0];
+                        MessageReader.writeMessage(bw,"AAAAAAAAAAAA", MessageReader.CMD_START);
+                        MessageReader.writeMessage(bw,"Hello");
+                        //MessageReader.readMessage(br);
+                        break;
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }while (clientSocket.isConnected());
         } catch (IOException e) {
             e.printStackTrace();
         }
