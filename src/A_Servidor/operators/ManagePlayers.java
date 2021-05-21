@@ -61,5 +61,4 @@ public class ManagePlayers {
     public boolean isOnline(){
         return socket.isConnected();
     }
-
 }

@@ -32,4 +32,13 @@ public class Handler {
     public void removeObject(GameObject object){
         this.object.remove(object);
     }
+
+    public int getindexObject(GameObject obj){
+        return object.indexOf(obj);
+    }
+
+    public GameObject getObject(GameObject obj){
+        return object.get(getindexObject(obj));
+    }
+
 }

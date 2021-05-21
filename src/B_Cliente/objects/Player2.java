@@ -1,75 +1,67 @@
 package B_Cliente.objects;
 
-import B_Cliente.main.Game;
-
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
-public class Bullet extends GameObject{
+public class Player2 extends GameObject{
 
-    public Bullet(float x, float y, ObjectId Id) {
+    public Player2(float x, float y, ObjectId Id) {
         super(x, y, Id);
-        setVelY(5);
     }
 
     @Override
     public void tick(LinkedList<GameObject> object) {
-        if (y > 0) {
-            setY(getY() - getVelY());
-        } else {
-            Game.getHandler().removeObject(this);
-        }
     }
 
     @Override
     public void render(Graphics g) {
-        g.setColor(Color.CYAN);
-        g.fillRect((int) getX()+24, (int) getY(), 5, 8);
+        BufferedImage playerImg = Load.imageLoad("/player.png");
+        g.drawImage(playerImg, (int)x, (int)y, null);
     }
 
     @Override
     public float getX() {
-        return x;
+        return 0;
     }
 
     @Override
     public float getY() {
-        return y;
+        return 0;
     }
 
     @Override
     public void setX(float x) {
-        this.x = x;
+
     }
 
     @Override
     public void setY(float y) {
-        this.y = y;
+
     }
 
     @Override
     public float getVelX() {
-        return velX;
+        return 0;
     }
 
     @Override
     public float getVelY() {
-        return velY;
+        return 0;
     }
 
     @Override
     public void setVelX(float velX) {
-        this.velX = velX;
+
     }
 
     @Override
     public void setVelY(float velY) {
-        this.velY = velY;
+
     }
 
     @Override
     public ObjectId getId() {
-        return Id;
+        return null;
     }
-
 }

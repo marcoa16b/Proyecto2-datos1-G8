@@ -25,7 +25,7 @@ public class Player extends GameObject implements MouseListener, MouseMotionList
         super(x, y, Id);
         c.addMouseListener(this);
         c.addMouseMotionListener(this);
-        //receivedInOut();
+        receivedInOut();
     }
 
     @Override
@@ -84,11 +84,8 @@ public class Player extends GameObject implements MouseListener, MouseMotionList
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
-        //Bullet bull = new Bullet(getX(), getY(), ObjectId.bullet);
-        //Game.getHandler().addObject(bull);
-        Bullet shot = new Bullet(getX(), getY(), ObjectId.bullet);
-        Game.getHandler().addObject(shot);
-
+        Bullet bull = new Bullet(getX(), getY(), ObjectId.bullet);
+        Game.getHandler().addObject(bull);
     }
 
     @Override
@@ -114,18 +111,24 @@ public class Player extends GameObject implements MouseListener, MouseMotionList
         } else if (nx < 0) {
             setX((float)0);
         } else {
-            setX((float)nx-11);
-            /*try {
-                output.writeInt(DataCheckers.ID.getValue());
-                output.writeInt(6);
+            //setX((float)nx-11);
+            try {
+                if (nx-11 < getX())
+                    if(nx != 99) {
+                        output.writeInt(DataCheckers.ID.getValue());
+                        output.writeInt(5);
+                        output.writeInt(nx);
+                    }
             } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }*/
+                System.out.println("error aqui");
+                //ioException.printStackTrace();
+            }
+            setX((float)nx-11);
         }
     }
 
-    /*public void receivedInOut(){
+    public void receivedInOut(){
         input = Controller.getInput();
         output = Controller.getOutput();
-    }*/
+    }
 }
