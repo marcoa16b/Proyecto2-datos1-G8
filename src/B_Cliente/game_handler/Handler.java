@@ -1,9 +1,11 @@
-package B_Cliente.objects;
+package B_Cliente.game_handler;
+
+import B_Cliente.objects.GameObject;
 
 import java.awt.*;
 import java.util.LinkedList;
 
-public class Hadler {
+public class Handler {
 
     public LinkedList<GameObject> object = new LinkedList<GameObject>();
 
@@ -27,7 +29,7 @@ public class Hadler {
         this.object.add(object);
     }
 
-    public void removeObject(GameObject onject){
+    public void removeObject(GameObject object){
         this.object.remove(object);
     }
 }

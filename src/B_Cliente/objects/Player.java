@@ -1,30 +1,43 @@
 package B_Cliente.objects;
 
+import B_Cliente.enums.DataCheckers;
+import B_Cliente.game_handler.Controller;
+import B_Cliente.main.Game;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.LinkedList;
 
 public class Player extends GameObject implements MouseListener, MouseMotionListener {
+
+    Graphics gr;
+
+    DataInputStream input;
+    DataOutputStream output;
 
     public Player(float x, float y, ObjectId Id, Canvas c) {
         super(x, y, Id);
         c.addMouseListener(this);
         c.addMouseMotionListener(this);
+        //receivedInOut();
     }
 
     @Override
-    public void tick(LinkedList<GameObject> object) {
-
-    }
+    public void tick(LinkedList<GameObject> object) {}
 
     @Override
     public void render(Graphics g) {
+        this.gr = g;
         //g.setColor(Color.CYAN);
-        //g.fillRect((int)x, (int)y,32, 32);
+        //g.fillRect((int)x, (int)y,22, 32);
         BufferedImage playerImg = Load.imageLoad("/player.png");
+        //Image nave = new ImageIcon(getClass().getResource("/player.png")).getImage();
         g.drawImage(playerImg, (int)x, (int)y, null);
     }
 
@@ -71,33 +84,27 @@ public class Player extends GameObject implements MouseListener, MouseMotionList
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
+        //Bullet bull = new Bullet(getX(), getY(), ObjectId.bullet);
+        //Game.getHandler().addObject(bull);
+        Bullet shot = new Bullet(getX(), getY(), ObjectId.bullet);
+        Game.getHandler().addObject(shot);
 
     }
 
     @Override
-    public void mousePressed(MouseEvent mouseEvent) {
-
-    }
+    public void mousePressed(MouseEvent mouseEvent) {}
 
     @Override
-    public void mouseReleased(MouseEvent mouseEvent) {
-
-    }
+    public void mouseReleased(MouseEvent mouseEvent) {}
 
     @Override
-    public void mouseEntered(MouseEvent mouseEvent) {
-
-    }
+    public void mouseEntered(MouseEvent mouseEvent) {}
 
     @Override
-    public void mouseExited(MouseEvent mouseEvent) {
-
-    }
+    public void mouseExited(MouseEvent mouseEvent) {}
 
     @Override
-    public void mouseDragged(MouseEvent mouseEvent) {
-
-    }
+    public void mouseDragged(MouseEvent mouseEvent) {}
 
     @Override
     public void mouseMoved(MouseEvent e) {
@@ -107,7 +114,18 @@ public class Player extends GameObject implements MouseListener, MouseMotionList
         } else if (nx < 0) {
             setX((float)0);
         } else {
-            setX((float)nx);
+            setX((float)nx-11);
+            /*try {
+                output.writeInt(DataCheckers.ID.getValue());
+                output.writeInt(6);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }*/
         }
     }
+
+    /*public void receivedInOut(){
+        input = Controller.getInput();
+        output = Controller.getOutput();
+    }*/
 }
