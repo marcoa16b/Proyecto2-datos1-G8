@@ -5,7 +5,7 @@ import B_Cliente.objects.GameObject;
 import java.awt.*;
 import java.util.LinkedList;
 
-public class Handler {
+public class Handler{
 
     public LinkedList<GameObject> object = new LinkedList<GameObject>();
 
@@ -22,9 +22,10 @@ public class Handler {
         for(int i = 0; i < object.size(); i++){
             tempObject = object.get(i);
             tempObject.render(g);
+            //Thread thread= new Thread();
+            //thread.start();
         }
     }
-
     public void addObject(GameObject object){
         this.object.add(object);
     }
@@ -40,5 +41,4 @@ public class Handler {
     public GameObject getObject(GameObject obj){
         return object.get(getindexObject(obj));
     }
-
 }
