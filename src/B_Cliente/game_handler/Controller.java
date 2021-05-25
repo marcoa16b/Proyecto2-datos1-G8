@@ -5,6 +5,7 @@ import B_Cliente.enums.DataCheckers;
 import B_Cliente.main.Game;
 import B_Cliente.objects.GameObject;
 import B_Cliente.objects.ObjectId;
+import B_Cliente.objects.Player;
 import B_Cliente.objects.Player2;
 
 import javax.swing.*;
@@ -57,10 +58,11 @@ public class Controller implements Runnable{
                 if (data1 != DataCheckers.ID.getValue()){
                     if ((data2 == 3) && (data3 == 0)){
                         System.out.println("new player");
-                        secondPlayer = new Player2(10, 500, ObjectId.SECOND_PLAYER);
-
-                    } else if (data2 == DataCheckers.MOVE_RIGHT.getValue()){
-                        secondPlayer.setX((float)data3);
+                        SecPlayerController.setPlayer2();
+                    }
+                    if (data2 == DataCheckers.MOVE_RIGHT.getValue()){
+                        //secondPlayer.setX(data3);
+                        SecPlayerController.setposXPlayer(data3);
                     }
                 }
 

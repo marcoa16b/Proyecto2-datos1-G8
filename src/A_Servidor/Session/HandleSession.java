@@ -29,13 +29,16 @@ public class HandleSession implements Runnable {
         try{
 
             // Notify that players are online
-            player1.sendData(DataChecks.PLAYER_TWO.getValue());
-            player1.sendData(DataChecks.PLAYER_ACTIVE.getValue());
-            player1.sendData(0);
+            //player1.sendData(DataChecks.PLAYER_TWO.getValue());
+            //player1.sendData(DataChecks.PLAYER_ACTIVE.getValue());
+            //player1.sendData(0);
+            sendingMessages1(DataChecks.PLAYER_TWO.getValue(), DataChecks.PLAYER_ACTIVE.getValue(), 0);
 
-            player2.sendData(DataChecks.PLAYER_ONE.getValue());
-            player2.sendData(DataChecks.PLAYER_ACTIVE.getValue());
-            player2.sendData(0);
+            //player2.sendData(DataChecks.PLAYER_ONE.getValue());
+            //player2.sendData(DataChecks.PLAYER_ACTIVE.getValue());
+            //player2.sendData(0);
+            sendingMessages2(DataChecks.PLAYER_ONE.getValue(), DataChecks.PLAYER_ACTIVE.getValue(), 0);
+
 
             while (continueToPlay){
 
@@ -83,6 +86,17 @@ public class HandleSession implements Runnable {
             return;
         }
 
+    }
+
+    private void sendingMessages1(int sms1, int sms2, int sms3){
+        player1.sendData(sms1);
+        player1.sendData(sms2);
+        player1.sendData(sms3);
+    }
+    private void sendingMessages2(int sms1, int sms2, int sms3){
+        player2.sendData(sms1);
+        player2.sendData(sms2);
+        player2.sendData(sms3);
     }
 
     private void checkerState(int state1, int state2) throws Exception{

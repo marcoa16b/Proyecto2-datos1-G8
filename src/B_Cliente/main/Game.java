@@ -3,9 +3,12 @@ package B_Cliente.main;
 import B_Cliente.game_handler.Handler;
 import B_Cliente.objects.ObjectId;
 import B_Cliente.objects.Player;
+import B_Cliente.objects.enemys.Aliens;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+
+import static B_Cliente.objects.ObjectId.alien;
 
 public class Game extends Canvas implements Runnable {
 
@@ -17,6 +20,7 @@ public class Game extends Canvas implements Runnable {
     public void init(){
         handler = new Handler();
         handler.addObject(new Player(400, 500, ObjectId.player, this));
+        handler.addAlien(new Aliens(400, 10, ObjectId.alien, false));
         //handler.addObject(new Bullet(2, 2, ObjectId.bullet));
     }
 
