@@ -4,6 +4,8 @@ import B_Cliente.game_handler.Handler;
 import B_Cliente.objects.ObjectId;
 import B_Cliente.objects.Player;
 import B_Cliente.objects.enemys.Aliens;
+import Objects.Level;
+
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -11,7 +13,7 @@ import java.awt.image.BufferStrategy;
 import static B_Cliente.objects.ObjectId.alien;
 
 public class Game extends Canvas implements Runnable {
-
+    private Level level;
     private static boolean run = false;
     private Thread thread;
 
@@ -91,8 +93,8 @@ public class Game extends Canvas implements Runnable {
         // draw here
         g.setColor(Color.BLACK);
         g.fillRect(0,0, getWidth(), getHeight());
-
         handler.render(g);
+        level.draw((Graphics2D) g);
 
         ///////////////////////////////////
         g.dispose();
