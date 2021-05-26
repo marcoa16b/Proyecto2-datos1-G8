@@ -21,7 +21,7 @@ public class Player extends GameObject implements MouseListener, MouseMotionList
     DataInputStream input;
     DataOutputStream output;
 
-    public Player(float x, float y, ObjectId Id, Canvas c) {
+    public Player(int x, int y, ObjectId Id, Canvas c) {
         super(x, y, Id);
         c.addMouseListener(this);
         c.addMouseMotionListener(this);
@@ -42,40 +42,40 @@ public class Player extends GameObject implements MouseListener, MouseMotionList
     }
 
     @Override
-    public float getX() {
+    public int getX() {
         return x;
     }
 
     @Override
-    public float getY() {
+    public int getY() {
         return y;
     }
 
     @Override
-    public void setX(float x) {
+    public void setX(int x) {
         this.x = x;
     }
 
     @Override
-    public void setY(float y) {
+    public void setY(int y) {
         this.y = y;
     }
 
     @Override
-    public float getVelX() {
+    public int getVelX() {
         return 0;
     }
 
     @Override
-    public float getVelY() {
+    public int getVelY() {
         return 0;
     }
 
     @Override
-    public void setVelX(float velX) {}
+    public void setVelX(int velX) {}
 
     @Override
-    public void setVelY(float velY) {}
+    public void setVelY(int velY) {}
 
     @Override
     public ObjectId getId() {
@@ -107,9 +107,9 @@ public class Player extends GameObject implements MouseListener, MouseMotionList
     public void mouseMoved(MouseEvent e) {
         int nx = e.getX();
         if (nx > 750 ) {
-            setX((float)750);
+            setX((int)750);
         } else if (nx < 0) {
-            setX((float)0);
+            setX((int)0);
         } else {
             //setX((float)nx-11);
             try {
@@ -123,7 +123,7 @@ public class Player extends GameObject implements MouseListener, MouseMotionList
                 System.out.println("error aqui");
                 //ioException.printStackTrace();
             }
-            setX((float)nx-11);
+            setX((int)nx-11);
         }
     }
 

@@ -7,7 +7,7 @@ import java.util.LinkedList;
 
 public class Bullet extends GameObject{
 
-    public Bullet(float x, float y, ObjectId Id) {
+    public Bullet(int x, int y, ObjectId Id) {
         super(x, y, Id);
         setVelY(5);
     }
@@ -28,42 +28,42 @@ public class Bullet extends GameObject{
     }
 
     @Override
-    public float getX() {
+    public int getX() {
         return x;
     }
 
     @Override
-    public float getY() {
+    public int getY() {
         return y;
     }
 
     @Override
-    public void setX(float x) {
+    public void setX(int x) {
         this.x = x;
     }
 
     @Override
-    public void setY(float y) {
+    public void setY(int y) {
         this.y = y;
     }
 
     @Override
-    public float getVelX() {
+    public int getVelX() {
         return velX;
     }
 
     @Override
-    public float getVelY() {
+    public int getVelY() {
         return velY;
     }
 
     @Override
-    public void setVelX(float velX) {
+    public void setVelX(int velX) {
         this.velX = velX;
     }
 
     @Override
-    public void setVelY(float velY) {
+    public void setVelY(int velY) {
         this.velY = velY;
     }
 

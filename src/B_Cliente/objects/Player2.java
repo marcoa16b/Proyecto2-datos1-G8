@@ -1,71 +1,69 @@
 package B_Cliente.objects;
 
-import B_Cliente.main.Game;
-
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
-public class Player2 extends GameObject {
+public class Player2 extends GameObject{
+
     public Player2(int x, int y, ObjectId Id) {
         super(x, y, Id);
     }
 
     @Override
     public void tick(LinkedList<GameObject> object) {
+        //setX(10);
+        //setY(510);
     }
+
     @Override
     public void render(Graphics g) {
         BufferedImage playerImg = Load.imageLoad("/player.png");
-        g.drawImage(playerImg, (int)x, (int)y, null);
+        g.drawImage(playerImg, x, y, null);
     }
 
     @Override
-    public float getX() {
-        return 0;
+    public int getX() {
+        return x;
     }
 
     @Override
-    public float getY() {
-        return 0;
+    public int getY() {
+        return y;
     }
 
     @Override
-    public void setX(float x) {
-
+    public void setX(int x) {
+        this.x = x;
     }
 
     @Override
-    public void setY(float y) {
-
+    public void setY(int y) {
+        this.y = y;
     }
 
     @Override
-    public float getVelX() {
-        return 0;
+    public int getVelX() {
+        return velX;
     }
 
     @Override
-    public float getVelY() {
-        return 0;
+    public int getVelY() {
+        return velY;
     }
 
     @Override
-    public void setVelX(float velX) {
-
+    public void setVelX(int velX) {
+        this.velX = velX;
     }
 
     @Override
-    public void setVelY(float velY) {
-
+    public void setVelY(int velY) {
+        this.velY = velY;
     }
 
     @Override
     public ObjectId getId() {
-        return null;
+        return Id;
     }
-
 }

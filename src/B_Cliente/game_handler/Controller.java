@@ -2,13 +2,16 @@ package B_Cliente.game_handler;
 
 import A_Servidor.enumConst.DataChecks;
 import B_Cliente.enums.DataCheckers;
+import B_Cliente.main.Game;
+import B_Cliente.objects.GameObject;
 import B_Cliente.objects.ObjectId;
+import B_Cliente.objects.Player;
 import B_Cliente.objects.Player2;
+
 import javax.swing.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-
 
 public class Controller implements Runnable{
 
@@ -16,6 +19,7 @@ public class Controller implements Runnable{
     private boolean waitinfForAction;
     private boolean isOver;
     private boolean myTurn = false;
+
     // Netwrok
     private static DataInputStream fromServer;
     private static DataOutputStream toServer;
@@ -54,9 +58,11 @@ public class Controller implements Runnable{
                 if (data1 != DataCheckers.ID.getValue()){
                     if ((data2 == 3) && (data3 == 0)){
                         System.out.println("new player");
-                        secondPlayer = new Player2(10, 500, ObjectId.SECOND_PLAYER);
-                    } else if (data2 == DataCheckers.MOVE_RIGHT.getValue()){
-                        secondPlayer.setX((float)data3);
+                        SecPlayerController.setPlayer2();
+                    }
+                    if (data2 == DataCheckers.MOVE_RIGHT.getValue()){
+                        //secondPlayer.setX(data3);
+                        SecPlayerController.setposXPlayer(data3);
                     }
                 }
 

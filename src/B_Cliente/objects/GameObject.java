@@ -5,11 +5,11 @@ import java.util.LinkedList;
 
 public abstract class GameObject {
 
-    protected float x,y;
+    protected int x,y;
     protected ObjectId Id;
-    protected float velX = 0, velY = 0;
+    protected int velX = 0, velY = 0;
 
-    public GameObject(float x, float y, ObjectId Id){
+    public GameObject(int x, int y, ObjectId Id){
         this.x = x;
         this.y = y;
     }
@@ -17,15 +17,15 @@ public abstract class GameObject {
     public abstract void tick(LinkedList<GameObject> object);
     public abstract void render(Graphics g);
 
-    public abstract float getX();
-    public abstract float getY();
-    public abstract void setX(float x);
-    public abstract void setY(float y);
+    public abstract int getX();
+    public abstract int getY();
+    public abstract void setX(int x);
+    public abstract void setY(int y);
 
-    public abstract float getVelX();
-    public abstract float getVelY();
-    public abstract void setVelX(float velX);
-    public abstract void setVelY(float velY);
+    public abstract int getVelX();
+    public abstract int getVelY();
+    public abstract void setVelX(int velX);
+    public abstract void setVelY(int velY);
 
     public abstract ObjectId getId();
 }

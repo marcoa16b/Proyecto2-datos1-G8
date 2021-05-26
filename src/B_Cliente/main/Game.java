@@ -1,27 +1,26 @@
 package B_Cliente.main;
 
-import B_Cliente.enums.DataCheckers;
 import B_Cliente.game_handler.Handler;
 import B_Cliente.objects.ObjectId;
 import B_Cliente.objects.Player;
-import B_Cliente.objects.Player2;
+import B_Cliente.objects.enemys.Aliens;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
 
+import static B_Cliente.objects.ObjectId.alien;
 
 public class Game extends Canvas implements Runnable {
+
     private static boolean run = false;
     private Thread thread;
+
     static Handler handler;
 
     public void init(){
         handler = new Handler();
-        handler.addObject(new Player(0, 500, ObjectId.player,this));
+        handler.addObject(new Player(400, 500, ObjectId.player, this));
+        handler.addAlien(new Aliens(400, 10, ObjectId.alien, false));
         //handler.addObject(new Bullet(2, 2, ObjectId.bullet));
     }
 
@@ -75,6 +74,7 @@ public class Game extends Canvas implements Runnable {
             }
         }
     }
+
     private  void tick(){
         handler.tick();
     }
@@ -87,19 +87,18 @@ public class Game extends Canvas implements Runnable {
         }
         Graphics g = bs.getDrawGraphics();
         ///////////////////////////////////
+
         // draw here
         g.setColor(Color.BLACK);
         g.fillRect(0,0, getWidth(), getHeight());
-        handler.tick();
+
         handler.render(g);
+
         ///////////////////////////////////
         g.dispose();
         bs.show();
-    }
-    public void render2(Player2 player2){
-        BufferStrategy bs = this.getBufferStrategy();
-        Graphics g = bs.getDrawGraphics();
-        player2.render(g);
+
+
     }
 
    /* public static void main(String[] args) {
