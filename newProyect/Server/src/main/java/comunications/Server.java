@@ -18,6 +18,8 @@ public class Server {
     private ServerSocket socket;
     private boolean isActive = true;
 
+    private int numPlayers = 0;
+
     public Server() throws IOException {
         this.socket = new ServerSocket(PORT);
     }
@@ -32,8 +34,19 @@ public class Server {
             ) {
                 Message message = this.readAndParse(reader);
                 if (message.getOperation() == 1) {
-                    System.out.println("ok es 1");
-                    writer.write(""+1);
+                    if (numPlayers == 0){
+                        numPlayers++;
+                        writer.write("P1");
+                        System.out.println("ok es el numero 1");
+                    } else if (numPlayers == 1) {
+                        numPlayers++;
+                        writer.write("P2");
+                        System.out.println("ok es el numero 2");
+                    }
+                    //System.out.println("ok es 1");
+                    //writer.write("P1");
+                } else if (message.getOperation() == 2){
+
                 } else {
                     writer.write("NOT ACK");
                 }
