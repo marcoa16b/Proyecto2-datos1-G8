@@ -12,7 +12,7 @@ import java.awt.image.BufferStrategy;
 public class Game extends Canvas implements Runnable {
     private static boolean run = false;
     private Thread thread;
-    public int idPlayer;
+    public static int idPlayer;
 
     static Handler handler;
 
@@ -21,6 +21,10 @@ public class Game extends Canvas implements Runnable {
         handler.addObject(new Player(400, 500, ObjectId.player, this));
         handler.addAlien(new Aliens(400, 10, ObjectId.alien, false));
         //handler.addObject(new Bullet(2, 2, ObjectId.bullet));
+    }
+
+    public static int getIdPlayer(){
+        return idPlayer;
     }
 
     public static Handler getHandler(){

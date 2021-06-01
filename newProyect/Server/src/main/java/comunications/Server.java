@@ -9,6 +9,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 
+/**
+ * Clase servidor, escucha a ambos clientes y dependiendo la instruccion retorna una nueva orden
+ * a alguno de los clientes.
+ * */
+
+
+
 public class Server {
 
     private static ObjectMapper mapper = new ObjectMapper();
@@ -33,7 +40,8 @@ public class Server {
                     var writer = new OutputStreamWriter(inboundConnection.getOutputStream());
             ) {
                 Message message = this.readAndParse(reader);
-                if (message.getOperation() == 1) {
+                if (message.getOperation() == 1) // operacion de nuevo cliente, se envia un ID
+                {
                     if (numPlayers == 0){
                         numPlayers++;
                         writer.write("P1");
@@ -43,11 +51,37 @@ public class Server {
                         writer.write("P2");
                         System.out.println("ok es el numero 2");
                     }
-                    //System.out.println("ok es 1");
-                    //writer.write("P1");
-                } else if (message.getOperation() == 2){
+                }
+                else if (message.getOperation() == 2) // Si es el ciente 1
+                {
+                    message = this.readAndParse(reader);
+                    if (message.getOperation() == 5){
+                        message = this.readAndParse(reader);
+                        // sendData(ID)
+                        // sendData(operation)
+                        // sendData(value = message)
+                    }
+                }
+                else if (message.getOperation() == 3) // Si es el ciente 2
+                {
+                    message = this.readAndParse(reader);
+                    if (message.getOperation() == 5){
+                        message = this.readAndParse(reader);
+                        // sendData(ID)
+                        // sendData(operation)
+                        // sendData(value = message)
+                    }
+                }
+                else if (message.getOperation() == 4) //
+                {
 
-                } else {
+                }
+                else if (message.getOperation() == 5) //
+                {
+
+                }
+                else
+                {
                     writer.write("NOT ACK");
                 }
                 writer.flush();
