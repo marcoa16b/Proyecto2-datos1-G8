@@ -1,9 +1,11 @@
 package game.objects;
 
+import game.Communications.Sender;
 import game.Game;
 import game.enums.DataCheckers;
 import game.enums.ObjectId;
 import game.handler.Controller;
+import tec.communications.Message;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -17,6 +19,7 @@ import java.util.LinkedList;
 
 public class Player extends GameObject implements MouseListener, MouseMotionListener {
 
+    private int serverPort = 9000;
     Graphics gr;
 
     DataInputStream input;
@@ -112,24 +115,28 @@ public class Player extends GameObject implements MouseListener, MouseMotionList
         } else if (nx < 0) {
             setX((int)0);
         } else {
-            //setX(nx-11);
-            /*try {
-                if (nx-11 < getX())
-                    if(nx != 99) {
-                        //output.writeInt(DataCheckers.ID.getValue());
-                        //output.writeInt(5);
-                        //output.writeInt(nx);
-                    }
-            } catch (IOException ioException) {
-                System.out.println("error aqui");
-                //ioException.printStackTrace();*/
-            //}
             setX((int)nx-11);
+            sendPosition(nx);
+            //Sender.sendData(serverPort, "localhost", );
         }
     }
+    public void sendPosition(int X){
+        Message sms = new Message();
+        if (Controller.secPlayerActive()) // verifica que el segundo jugador se haya conectado.
+        {
+            try {
+                sms.setOperation(Game.getIdPlayer() + 1); // if is client 1 ore 2, the id to server is 2 or 3.
+                Sender.sendData(serverPort, "localhost", sms);
 
-    /*public void receivedInOut(){
-        input = Controller.getInput();
-        output = Controller.getOutput();
-    }*/
+                sms.setOperation(5); // operation to move the player
+                Sender.sendData(serverPort, "localhost", sms);
+
+                sms.setOperation(X); // position in X of player
+                Sender.sendData(serverPort, "localhost", sms);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

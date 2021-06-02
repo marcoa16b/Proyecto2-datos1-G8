@@ -21,6 +21,8 @@ public class Server {
     private static ObjectMapper mapper = new ObjectMapper();
 
     private static final int PORT = 9000;
+    private static final int PORTP1 = 9200;
+    private static final int PORTP2 = 9400;
 
     private ServerSocket socket;
     private boolean isActive = true;
@@ -39,8 +41,8 @@ public class Server {
                     var reader = new InputStreamReader(inboundConnection.getInputStream());
                     var writer = new OutputStreamWriter(inboundConnection.getOutputStream());
             ) {
-                Message message = this.readAndParse(reader);
-                if (message.getOperation() == 1) // operacion de nuevo cliente, se envia un ID
+                Message toServer = this.readAndParse(reader);
+                if (toServer.getOperation() == 1) // operacion de nuevo cliente, se envia un ID
                 {
                     if (numPlayers == 0){
                         numPlayers++;
@@ -52,31 +54,61 @@ public class Server {
                         System.out.println("ok es el numero 2");
                     }
                 }
-                else if (message.getOperation() == 2) // Si es el ciente 1
+                else if (toServer.getOperation() == 2) // Si es el ciente 1
                 {
-                    message = this.readAndParse(reader);
-                    if (message.getOperation() == 5){
-                        message = this.readAndParse(reader);
-                        // sendData(ID)
-                        // sendData(operation)
-                        // sendData(value = message)
-                    }
-                }
-                else if (message.getOperation() == 3) // Si es el ciente 2
-                {
-                    message = this.readAndParse(reader);
-                    if (message.getOperation() == 5){
-                        message = this.readAndParse(reader);
-                        // sendData(ID)
-                        // sendData(operation)
-                        // sendData(value = message)
-                    }
-                }
-                else if (message.getOperation() == 4) //
-                {
+                    //writer.write("0");
+                    toServer = this.readAndParse(reader);
+                    if (toServer.getOperation() == 5){
 
+                        //writer.write("0");
+                        toServer = this.readAndParse(reader);
+
+                        Message sms = new Message();
+
+                        sms.setOperation(2); //
+                        ServerSender.sendData(PORTP2, "localhost", sms);
+
+                        sms.setOperation(5);
+                        ServerSender.sendData(PORTP2, "localhost", sms);
+
+                        sms.setOperation(toServer.getOperation());
+                        ServerSender.sendData(PORTP2, "localhost", sms);
+
+                        writer.write("0");
+                    }
                 }
-                else if (message.getOperation() == 5) //
+                else if (toServer.getOperation() == 3) // Si es el ciente 2
+                {
+                    //writer.write("0");
+                    toServer = this.readAndParse(reader);
+                    if (toServer.getOperation() == 5){
+
+                        //writer.write("0");
+                        toServer = this.readAndParse(reader);
+
+                        Message sms = new Message();
+
+                        sms.setOperation(1); //
+                        ServerSender.sendData(PORTP1, "localhost", sms);
+
+                        sms.setOperation(5);
+                        ServerSender.sendData(PORTP1, "localhost", sms);
+
+                        sms.setOperation(toServer.getOperation());
+                        ServerSender.sendData(PORTP1, "localhost", sms);
+
+                        writer.write("0");
+                    }
+                }
+                else if (toServer.getOperation() == 4) //
+                {
+                    writer.write("OK");
+                    Message sms = new Message();
+                    sms.setOperation(4);
+                    ServerSender.sendData(PORTP1, "localhost", sms);
+                    ServerSender.sendData(PORTP2, "localhost", sms);
+                }
+                else if (toServer.getOperation() == 5) //
                 {
 
                 }

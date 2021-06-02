@@ -21,8 +21,6 @@ import java.util.TreeMap;
  * */
 
 
-
-
 public class Sender {
     private static ObjectMapper mapper = new ObjectMapper();
     private static boolean appTrue = true;
@@ -30,6 +28,54 @@ public class Sender {
     public static int playerID;
     public static int portP1 = 9200;
     public static int portP2 = 9400;
+
+    public static void sendSecMessage (int port, String host, Message message) throws IOException{
+        try (
+                var outgoing = new Socket(host, port);
+                var writer = new OutputStreamWriter(outgoing.getOutputStream());
+                var reader = new InputStreamReader(outgoing.getInputStream())
+        ) {
+            writer.write(mapper.writeValueAsString(message));
+            writer.flush();
+            outgoing.shutdownOutput();
+
+            var line = MessageReader.readMessage(reader, 1024);
+            if (line.startsWith("P1"))
+            {
+                playerID = 1;
+                System.out.println("Server accepted the request");
+                System.out.println("My id is: "+playerID);
+                new Window(800,600, "Space Invaders", new Game(), playerID);
+
+                Controller task = new Controller(portP1, host);
+                new Thread(task).start();
+
+            }
+            else if (line.startsWith("P2"))
+            {
+                playerID = 2;
+                System.out.println("Server accepted the request");
+                System.out.println("My id is: "+playerID);
+                new Window(800,600, "Space Invaders", new Game(), playerID);
+
+                Controller task = new Controller(portP2, host);
+                new Thread(task).start();
+
+                Message sms = new Message();
+
+            }
+            else if (line.startsWith("OK"))
+            {
+                System.out.println("colocar segundo cliente");
+            }
+            else if (line.startsWith("0"))
+            {}
+            else
+            {
+                System.out.println("Server rejected the request");
+            }
+        }
+    }
 
     public static void sendData(int port, String host, Message message) throws IOException {
         try (
@@ -59,6 +105,11 @@ public class Sender {
 
                 Controller task = new Controller(portP2, host);
                 new Thread(task).start();
+
+                Message sms = new Message();
+                sms.setOperation(4);
+
+                sendSecMessage(port, host, sms);
 
             }else {
                 System.out.println("Server rejected the request");

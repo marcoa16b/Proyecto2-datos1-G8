@@ -3,6 +3,8 @@ package game.handler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import game.Game;
 import game.Window;
+import game.enums.ObjectId;
+import game.objects.Player2;
 import tec.MessageReader;
 import tec.communications.Message;
 
@@ -17,6 +19,7 @@ public class Controller implements Runnable{
     private int port;
     private String host;
     private int ID;
+    private static Boolean secondPlayerActive = false;
 
     private ServerSocket socket;
 
@@ -31,20 +34,42 @@ public class Controller implements Runnable{
         this.ID = Game.getIdPlayer();
     }
 
+    public static boolean secPlayerActive(){
+        return secondPlayerActive;
+    }
+
     @Override
     public void run() {
+        System.out.println("server funcionando");
         while (gameActive){
             try(
                     var inboundConection = this.socket.accept();
                     var reader = new InputStreamReader(inboundConection.getInputStream());
                     var writer = new OutputStreamWriter(inboundConection.getOutputStream());
                     ){
+
                 Message message = this.readAndParse(reader);
                 if (message.getOperation() == ID){ // si el id es diferente al in del juego
+                    System.out.println(message);
+                    //writer.write("0");
                     message = this.readAndParse(reader);
                     if (message.getOperation() == 5){ // 5 is code of move
+                        System.out.println(message);
 
+                        //writer.write("0");
+                        message = this.readAndParse(reader);
+
+                        System.out.println(message);
+
+                        SecPlayerController.setposXPlayer(message.getOperation());
+
+                        writer.write("0");
+                        //action to move the second player
                     }
+                } else if (message.getOperation() == 4){
+                    writer.write("OK");
+                    secondPlayerActive = true;
+                    SecPlayerController.setPlayer2();
                 }
 
             } catch (IOException e) {
