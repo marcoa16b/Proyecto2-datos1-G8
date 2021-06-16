@@ -1,4 +1,4 @@
-package B_Cliente.objects;
+package game.enums;
 
 public enum ObjectId {
     player(),

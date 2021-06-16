@@ -1,6 +1,7 @@
-package B_Cliente.objects;
+package game.objects;
 
-import B_Cliente.main.Game;
+import game.Game;
+import game.enums.ObjectId;
 
 import java.awt.*;
 import java.util.LinkedList;

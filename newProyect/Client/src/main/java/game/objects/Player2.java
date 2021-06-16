@@ -1,30 +1,27 @@
-package B_Cliente.objects;
+package game.objects;
 
-import B_Cliente.main.Game;
+import game.enums.ObjectId;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
-public class Bullet extends GameObject{
+public class Player2 extends GameObject{
 
-    public Bullet(int x, int y, ObjectId Id) {
+    public Player2(int x, int y, ObjectId Id) {
         super(x, y, Id);
-        setVelY(5);
     }
 
     @Override
     public void tick(LinkedList<GameObject> object) {
-        if (y > 0) {
-            setY(getY() - getVelY());
-        } else {
-            Game.getHandler().removeObject(this);
-        }
+        //setX(10);
+        //setY(510);
     }
 
     @Override
     public void render(Graphics g) {
-        g.setColor(Color.CYAN);
-        g.fillRect((int) getX()+24, (int) getY(), 5, 8);
+        BufferedImage playerImg = Load.imageLoad("/player.png");
+        g.drawImage(playerImg, x, y, null);
     }
 
     @Override
@@ -71,5 +68,4 @@ public class Bullet extends GameObject{
     public ObjectId getId() {
         return Id;
     }
-
 }

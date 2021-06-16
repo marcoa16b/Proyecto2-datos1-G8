@@ -1,19 +1,18 @@
-package B_Cliente.main;
+package game;
 
-import B_Cliente.game_handler.Handler;
-import B_Cliente.objects.ObjectId;
-import B_Cliente.objects.Player;
-import B_Cliente.objects.enemys.Aliens;
+import game.enemys.Aliens;
+import game.enums.ObjectId;
+import game.handler.Handler;
+import game.objects.Bullet;
+import game.objects.Player;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
-import static B_Cliente.objects.ObjectId.alien;
-
 public class Game extends Canvas implements Runnable {
-
     private static boolean run = false;
     private Thread thread;
+    public static int idPlayer;
 
     static Handler handler;
 
@@ -22,6 +21,10 @@ public class Game extends Canvas implements Runnable {
         handler.addObject(new Player(400, 500, ObjectId.player, this));
         handler.addAlien(new Aliens(400, 10, ObjectId.alien, false));
         //handler.addObject(new Bullet(2, 2, ObjectId.bullet));
+    }
+
+    public static int getIdPlayer(){
+        return idPlayer;
     }
 
     public static Handler getHandler(){
@@ -92,6 +95,9 @@ public class Game extends Canvas implements Runnable {
         g.setColor(Color.BLACK);
         g.fillRect(0,0, getWidth(), getHeight());
 
+        g.setColor(Color.WHITE);
+        g.drawString("my id: "+idPlayer, 50, 50);
+
         handler.render(g);
 
         ///////////////////////////////////
@@ -100,32 +106,4 @@ public class Game extends Canvas implements Runnable {
 
 
     }
-
-   /* public static void main(String[] args) {
-        new Window(800,600, "Space Invaders", new Game());
-        final String HOST = "127.0.0.1";
-        final int PUERTO = 5000;
-        DataInputStream in;
-        DataOutputStream out;
-
-        try {
-            Socket sc = new Socket(HOST, PUERTO);
-
-            while (run) {
-                in = new DataInputStream(sc.getInputStream());
-                out = new DataOutputStream(sc.getOutputStream());
-
-                out.writeUTF("Hola servidor ");
-                String mensaje = in.readUTF();
-
-                System.out.println(mensaje);
-            }
-            sc.close();
-
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
 }

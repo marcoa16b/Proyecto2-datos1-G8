@@ -2,6 +2,11 @@ package B_Cliente.game_handler;
 
 import A_Servidor.enumConst.DataChecks;
 import B_Cliente.enums.DataCheckers;
+import B_Cliente.main.Game;
+import B_Cliente.objects.GameObject;
+import B_Cliente.objects.ObjectId;
+import B_Cliente.objects.Player;
+import B_Cliente.objects.Player2;
 
 import javax.swing.*;
 import java.io.DataInputStream;
@@ -18,6 +23,8 @@ public class Controller implements Runnable{
     // Netwrok
     private static DataInputStream fromServer;
     private static DataOutputStream toServer;
+
+    Player2 secondPlayer;
 
     public Controller(DataInputStream input, DataOutputStream output){
         this.fromServer = input;
@@ -41,9 +48,25 @@ public class Controller implements Runnable{
         try{
             while (continueToPlay && !isOver){
 
+                int data1 = fromServer.readInt();
+                int data2 = fromServer.readInt();
+                int data3 = fromServer.readInt();
+                System.out.println("el dato 1 es: "+data1);
+                System.out.println("el dato 2 es: "+data2);
+                System.out.println("el dato 3 es: "+data3);
 
+                if (data1 != DataCheckers.ID.getValue()){
+                    if ((data2 == 3) && (data3 == 0)){
+                        System.out.println("new player");
+                        SecPlayerController.setPlayer2();
+                    }
+                    if (data2 == DataCheckers.MOVE_RIGHT.getValue()){
+                        //secondPlayer.setX(data3);
+                        SecPlayerController.setposXPlayer(data3);
+                    }
+                }
 
-                if (DataCheckers.ID.getValue() == DataChecks.PLAYER_ONE.getValue()){
+                /*if (DataCheckers.ID.getValue() == DataChecks.PLAYER_ONE.getValue()){
                     waitForPlayerAction();
                     if(!isOver)
                         receiveInfoFromServer();
@@ -51,7 +74,7 @@ public class Controller implements Runnable{
                     receiveInfoFromServer();
                     if(!isOver)
                         waitForPlayerAction();
-                }
+                }*/
             }
 
             if (isOver){

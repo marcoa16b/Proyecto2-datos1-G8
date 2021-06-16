@@ -1,8 +1,7 @@
-package B_Cliente.game_handler;
-
-import B_Cliente.Listas.ListasEnlazadas;
-import B_Cliente.objects.GameObject;
-import B_Cliente.objects.enemys.AbsAliens;
+package game.handler;
+import game.Listas.ListasEnlazadas;
+import game.enemys.AbsAliens;
+import game.objects.GameObject;
 
 import java.awt.*;
 import java.util.LinkedList;
@@ -26,10 +25,6 @@ public class Handler {
             tempAlien.tick(aliens);
         }
 
-        /*for ( int i = 0; i < enemys.getSize(); i++){
-            tempEnemy = enemys.get(i);
-            tempObject.tick(object); // update(object)
-        }*/
     }
 
     public void render(Graphics g){
